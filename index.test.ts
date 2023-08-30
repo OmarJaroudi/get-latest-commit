@@ -20,10 +20,10 @@ describe('Get Latest Commit Info Action', () => {
 
     await run();
 
-    expect(core.setOutput).toHaveBeenCalledWith('commit-sha', expect.any(String));
-    expect(core.setOutput).toHaveBeenCalledWith('commit-message', 'Test Commit Message');
-    expect(core.setOutput).toHaveBeenCalledWith('commit-author', expect.any(String));
-    expect(core.setOutput).toHaveBeenCalledWith('commit-committer', expect.any(String));
+    expect(core.setOutput).toHaveBeenCalledWith('sha', expect.any(String));
+    expect(core.setOutput).toHaveBeenCalledWith('message', 'Test Commit Message');
+    expect(core.setOutput).toHaveBeenCalledWith('author', expect.any(String));
+    expect(core.setOutput).toHaveBeenCalledWith('committer', expect.any(String));
   });
 
   it('should set outputs for non-existing branch', async () => {
@@ -31,10 +31,10 @@ describe('Get Latest Commit Info Action', () => {
 
     await run();
 
-    expect(core.setOutput).toHaveBeenCalledWith('commit-sha', '');
-    expect(core.setOutput).toHaveBeenCalledWith('commit-message', '');
-    expect(core.setOutput).toHaveBeenCalledWith('commit-author', '');
-    expect(core.setOutput).toHaveBeenCalledWith('commit-committer', '');
+    expect(core.setOutput).toHaveBeenCalledWith('sha', '');
+    expect(core.setOutput).toHaveBeenCalledWith('message', '');
+    expect(core.setOutput).toHaveBeenCalledWith('author', '');
+    expect(core.setOutput).toHaveBeenCalledWith('committer', '');
   });
 
   it('should handle errors', async () => {

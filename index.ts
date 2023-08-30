@@ -61,10 +61,10 @@ export async function run(): Promise<void> {
         },
       });
 
-      core.setOutput('commit-sha', latestCommitSHA.trim());
-      core.setOutput('commit-message', latestCommitMessage.trim());
-      core.setOutput('commit-author', latestCommitAuthor.trim());
-      core.setOutput('commit-committer', latestCommitCommitter.trim());
+      core.setOutput('sha', latestCommitSHA.trim());
+      core.setOutput('message', latestCommitMessage.trim());
+      core.setOutput('author', latestCommitAuthor.trim());
+      core.setOutput('committer', latestCommitCommitter.trim());
     } else {
       console.log(`Remote ref ${branch} not found`);
     }

@@ -5,13 +5,13 @@ inputs:
     description: 'Name of the branch'
     required: true
 outputs:
-  commit-message:
+  message:
     description: 'Latest commit message'
-  commit-sha:
+  sha:
     description: 'Latest commit SHA'
-  commit-author:
+  author:
     description: 'Latest commit author'
-  commit-committer:
+  committer:
     description: 'Latest commit committer'
 runs:
   using: 'node16'
