@@ -1,13 +1,18 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Get Latest Commit'
+description: 'Fetch info about latest commit made to a branch'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  branch-name:
+    description: 'Name of the branch'
     required: true
-    default: '1000'
 outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  message:
+    description: 'Latest commit message'
+  sha:
+    description: 'Latest commit SHA'
+  author:
+    description: 'Latest commit author'
+  committer:
+    description: 'Latest commit committer'
 runs:
   using: 'node16'
   main: 'dist/index.js'
