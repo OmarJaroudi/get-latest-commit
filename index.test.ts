@@ -1,20 +1,21 @@
-const core = require('@actions/core');
-const exec = require('@actions/exec');
-const { run } = require('./index'); // Update the path to match the actual location of index.js
+import * as core from '@actions/core';
+import * as exec from '@actions/exec';
+import { run } from './index';
 
 jest.mock('@actions/core');
 jest.mock('@actions/exec');
 
 describe('Get Latest Commit Info Action', () => {
   it('should set outputs for existing branch', async () => {
-    exec.exec.mockImplementation((command, args, options) => {
-      if (command === 'git ls-remote --exit-code --heads origin branch') {
+    (exec.exec as jest.Mock).mockImplementation((command, args, options) => {
+      if (command === `git ls-remote --heads origin branch`) {
         return 0; // Simulate branch exists
       }
       if (command.startsWith('git log -1')) {
         options.listeners.stdout('Test Commit Message\n');
         return 0;
       }
+      return 0;
     });
 
     await run();
@@ -22,21 +23,23 @@ describe('Get Latest Commit Info Action', () => {
     expect(core.setOutput).toHaveBeenCalledWith('commit-sha', expect.any(String));
     expect(core.setOutput).toHaveBeenCalledWith('commit-message', 'Test Commit Message');
     expect(core.setOutput).toHaveBeenCalledWith('commit-author', expect.any(String));
+    expect(core.setOutput).toHaveBeenCalledWith('commit-committer', expect.any(String));
   });
 
   it('should set outputs for non-existing branch', async () => {
-    exec.exec.mockReturnValue(1); // Simulate branch doesn't exist
+    (exec.exec as jest.Mock).mockReturnValue(1); // Simulate branch doesn't exist
 
     await run();
 
     expect(core.setOutput).toHaveBeenCalledWith('commit-sha', '');
     expect(core.setOutput).toHaveBeenCalledWith('commit-message', '');
     expect(core.setOutput).toHaveBeenCalledWith('commit-author', '');
+    expect(core.setOutput).toHaveBeenCalledWith('commit-committer', '');
   });
 
   it('should handle errors', async () => {
     const errorMessage = 'An error occurred';
-    exec.exec.mockImplementation(() => {
+    (exec.exec as jest.Mock).mockImplementation(() => {
       throw new Error(errorMessage);
     });
 
